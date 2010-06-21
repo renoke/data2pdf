@@ -1,10 +1,21 @@
 require 'rubygems'
 require 'test/unit'
 require 'shoulda'
+require 'mocha'
 
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'shoulda_macros'))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
-require 'xhtml2pdf'
+require 'data2pdf'
+require 'shoulda_data2pdf'
 
 class Test::Unit::TestCase
+
+  def assert_exist file
+    File.delete file if File.exist? file
+    yield
+    assert File.exist?(file), "#{file} does not exist"
+    File.delete file if File.exist? file
+  end
+
 end
